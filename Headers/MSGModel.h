@@ -37,6 +37,7 @@ typedef struct {
 + (instancetype)newADTModelWithInfo:(MSGModelInfo *)info adtValueSubtype:(NSInteger)adtValueSubtype; // v458.0.0
 + (instancetype)newWithModelInfo:(MSGModelInfo *)info; // adtValueSubtype = -1
 - (void)setBoolValue:(BOOL)value forFieldIndex:(NSUInteger)index;
+- (void)setInt32Value:(int)value forFieldIndex:(NSUInteger)index;
 - (void)setInt64Value:(NSInteger)value forFieldIndex:(NSUInteger)index;
 - (void)setObjectValue:(id)value forFieldIndex:(NSUInteger)index;
 @end

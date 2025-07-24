@@ -113,6 +113,10 @@
 
     //=========================== UI OPTIONS ===========================//
 
+    SNCellModel *hideMetaAIFloatingButtonCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_META_AI_FLOATING_BUTTON"];
+    hideMetaAIFloatingButtonCell.prefKey = @"hideMetaAIFloatingButton";
+    hideMetaAIFloatingButtonCell.isRestartRequired = YES;
+
     SNCellModel *hidePeopleTabCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_PEOPLE_TAB"];
     hidePeopleTabCell.prefKey = @"hidePeopleTab";
     hidePeopleTabCell.isRestartRequired = YES;
@@ -129,6 +133,9 @@
     SNCellModel *hideSearchBarCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_SEARCH_BAR"];
     hideSearchBarCell.prefKey = @"hideSearchBar";
     hideSearchBarCell.isRestartRequired = YES;
+
+    SNCellModel *hideSuggestedAIQuestionsInSearchCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_SUGGESTED_AI_QUESTIONS_IN_SEARCH"];
+    hideSuggestedAIQuestionsInSearchCell.prefKey = @"hideSuggestedAIQuestionsInSearch";
 
     SNCellModel *hideSuggestedContactsInSearchCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_SUGGESTED_CONTACTS_IN_SEARCH"];
     hideSuggestedContactsInSearchCell.prefKey = @"hideSuggestedContactsInSearch";
@@ -181,10 +188,12 @@
             ],
 
         @"3": @[
+                hideMetaAIFloatingButtonCell,
+                hideNotesRowCell,
                 hidePeopleTabCell,
                 hideStoriesTabCell,
-                hideNotesRowCell,
                 hideSearchBarCell,
+                hideSuggestedAIQuestionsInSearchCell,
                 hideSuggestedContactsInSearchCell
             ],
 

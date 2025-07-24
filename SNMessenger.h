@@ -1,3 +1,4 @@
+#import "Headers/FBAnalytics.h"
 #import "Headers/LSMediaPickerViewController.h"
 #import "Headers/LSStoryOverlayProfileView.h"
 #import "Headers/LSTabBarDataSource.h"
@@ -10,7 +11,11 @@
 #import "Headers/MSGModelWeakObjectContainer.h"
 #import "Headers/MSGNavigationCoordinator_LSNavigationCoordinatorProxy.h"
 #import "Headers/MSGTempMessageListItemModel.h"
+#import "Headers/MSGThreadListDataSource.h"
 #import "Utilities.h"
+#import "fishhook/fishhook.h"
+#import <map>
+#import <string>
 #import <variant>
 #import <vector>
 
@@ -32,10 +37,10 @@ using namespace std;
 //                                               ||                                               //
 //===============================================||===============================================//
 
-NSString *(^ typeLookup)(const char *, NSUInteger) = ^NSString *(const char *encoding, NSUInteger type) {
+static NSString *(^ typeLookup)(const char *, NSUInteger) = ^NSString *(const char *encoding, NSUInteger type) {
     SwitchCStr (encoding) {
         CaseCEqual ("B") { return @"Bool"; }
-        CaseCEqual ("i") { return @"Int"; }
+        CaseCEqual ("i") { return @"Int32"; }
         CaseCEqual ("I") { return @"Unsigned Int32"; }
         CaseCEqual ("q") { return @"Int64"; }
         CaseCEqual ("Q") { return @"Unsigned Int64"; }
@@ -89,15 +94,6 @@ NSString *(^ typeLookup)(const char *, NSUInteger) = ^NSString *(const char *enc
 
 using MSGModelTypes = vector<variant<bool, int, long long, double, float, id, MSGModelWeakObjectContainer *, void *, SEL *>, allocator<variant<bool, int, long long, double, float, id, MSGModelWeakObjectContainer *, void *, SEL *>>>;
 
-@interface FBAnalytics : NSObject
-+ (instancetype)sharedAnalytics;
-- (NSString *)userFBID;
-@end
-
-@interface MSGThreadListDataSource : NSObject
-- (BOOL)isInitializationComplete;
-@end
-
 typedef struct {
     const char *key;
     const char *subKey;
@@ -115,3 +111,46 @@ typedef struct {
 @interface MSGNavigationCoordinator_LSNavigationCoordinatorProxy (SNMessenger)
 - (void)presentAlertWithCompletion:(void (^)(BOOL))completion;
 @end
+
+static inline void SNHookFunctions(map<const char *, vector<struct rebinding>> map) {
+    for (const auto& pair : map) {
+        vector<struct rebinding> rebindings = pair.second;
+        size_t rebindings_nel = rebindings.size();
+
+        #if (SIDELOAD == 1)
+            void *handle = dlopen([[NSString stringWithFormat:@"%s.framework/%s", pair.first, pair.first] UTF8String], RTLD_LAZY);
+            for (uint j = 0; j < rebindings_nel; j++) {
+                *(rebindings[j].replaced) = dlsym(handle, rebindings[j].name);
+                //RLog(@"%s | %p", rebindings[j].name, *(rebindings[j].replaced));
+            }
+
+            rebind_symbols(rebindings.data(), rebindings_nel);
+
+            for (uint j = 0; j < rebindings_nel; j++) {
+                if (dlsym(handle, rebindings[j].name) != *(rebindings[j].replaced)) {
+                    //RLog(@"Failed to find symbol '%s' in %s", rebindings[j].name, pair.first);
+                    abort();
+                }
+            }
+
+            dlclose(handle);
+        #else // Jailbroken devices
+            MSImageRef ImageRef = getImageRef([NSString stringWithFormat:@"%s.framework/%s", pair.first, pair.first]);
+            for (uint j = 0; j < rebindings_nel; j++) {
+                string lowLevelName = "_" + string(rebindings[j].name);
+                rebindings[j].name = lowLevelName.c_str();
+
+                *(rebindings[j].replaced) = MSFindSymbol(ImageRef, rebindings[j].name);
+                if (!*(rebindings[j].replaced)) {
+                    RLog(@"Failed to find symbol '%s' in %s", rebindings[j].name, pair.first);
+                    continue;
+                }
+
+                //RLog(@"%s | %p", rebindings[j].name, *(rebindings[j].replaced));
+                if (rebindings[j].replacement) {
+                    MSHookFunction(rebindings[j].name, rebindings[j].replacement, rebindings[j].replaced);
+                }
+            }
+        #endif
+    }
+}

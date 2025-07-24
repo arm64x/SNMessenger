@@ -3,6 +3,8 @@
 #import <CydiaSubstrate.h>
 #import <UIKit/UIKit.h>
 #import <RemoteLog.h> // For debugging
+#import <dlfcn.h>
+#import <mach-o/dyld.h>
 #import <rootless.h>
 #import <version.h>
 
@@ -26,6 +28,18 @@ extern MDSColorTypeMdsColor *(* MDSColorTypeMdsColorCreate)(NSUInteger);
 extern MDSGeneratedImageIconStyleNormal *(* MDSGeneratedImageIconStyleNormalCreate)();
 extern MDSGeneratedImageSpecIcon *(* MDSGeneratedImageSpecIconCreate)(NSUInteger, MDSColorTypeMdsColor *, id);
 extern MDSGeneratedImageView *MDSGeneratedImageViewCreate(NSString *, NSUInteger, CGSize);
+
+static inline void *getImageBase(const char *imageName) {
+    uint32_t imageCount = _dyld_image_count();
+    for (uint32_t i = 0; i < imageCount; i++) {
+        void *header = (void *)_dyld_get_image_header(i);
+        if (header && strstr(_dyld_get_image_name(i), imageName)) {
+            return header;
+        }
+    }
+
+    return NULL;
+}
 
 static inline MSImageRef getImageRef(NSString *framework) {
     NSString *frameworkPath = [NSString stringWithFormat:@"%@/Frameworks/%@", [[NSBundle mainBundle] bundlePath], framework];
