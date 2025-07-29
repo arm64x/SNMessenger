@@ -16,6 +16,7 @@
 "CALL_CONFIRMATION_TITLE" = "Xác nhận cuộc gọi";
 "CALL_CONFIRMATION_MESSAGE" = "Bạn có chắc chắn muốn gọi không ?";
 "DISABLE_READ_RECEIPTS" = "Chặn thông báo đã đọc";
+"DISABLE_READ_RECEIPTS_DESCRIPTION" = "Vẫn đánh dấu là đã đọc nhưng chỉ ở phía bạn thôi";
 "DISABLE_LONG_PRESS_TO_CHANGE_THEME" = "Tắt nhấn giữ để thay đổi nền chat";
 "CONFIG_TYPING_INDICATOR" = "Tùy chỉnh thông báo đang soạn tn";
 "CONFIG_TYPING_INDICATOR_TITLE" = "Cài đặt thông báo soạn tin nhắn";

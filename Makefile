@@ -1,6 +1,6 @@
 INSTALL_TARGET_PROCESSES = Messenger
 PACKAGE_VERSION = 1.1.0
-ARCHS = arm64
+ARCHS = arm64 arm64e
 
 TWEAK_NAME = SNMessenger
 $(TWEAK_NAME)_FILES = $(wildcard SNMessenger.xm Settings/*.mm)

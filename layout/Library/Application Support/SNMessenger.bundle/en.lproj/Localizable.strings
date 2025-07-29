@@ -16,6 +16,7 @@
 "CALL_CONFIRMATION_TITLE" = "Call confirmation";
 "CALL_CONFIRMATION_MESSAGE" = "Are you sure you want to call ?";
 "DISABLE_READ_RECEIPTS" = "Disable read receipts";
+"DISABLE_READ_RECEIPTS_DESCRIPTION" = "Will still mark as read but only on your side";
 "DISABLE_LONG_PRESS_TO_CHANGE_THEME" = "Disable long press to change theme";
 "CONFIG_TYPING_INDICATOR" = "Configure typing indicator";
 "CONFIG_TYPING_INDICATOR_TITLE" = "Typing indicator settings";

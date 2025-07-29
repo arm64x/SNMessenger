@@ -78,6 +78,7 @@
     disableLongPressToChangeThemeCell.prefKey = @"disableLongPressToChangeTheme";
 
     SNCellModel *disableReadReceiptsCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"DISABLE_READ_RECEIPTS"];
+    disableReadReceiptsCell.subtitleKey = @"DISABLE_READ_RECEIPTS_DESCRIPTION";
     disableReadReceiptsCell.prefKey = @"disableReadReceipts";
     disableReadReceiptsCell.defaultValue = @(YES);
 
