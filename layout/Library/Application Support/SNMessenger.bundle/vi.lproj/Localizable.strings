@@ -49,8 +49,7 @@
 "HIDE_META_AI_FLOATING_BUTTON" = "Ẩn nút Meta AI";
 "HIDE_NOTES_ROW" = "Ẩn mục ghi chú";
 "HIDE_SEARCH_BAR" = "Ẩn thanh tìm kiếm";
-"HIDE_SUGGESTED_CONTACTS_IN_SEARCH" = "Ẩn gợi ý liên lạc trong phần tìm kiếm";
-"HIDE_SUGGESTED_AI_QUESTIONS_IN_SEARCH" = "Ẩn gợi ý của AI trong phần tìm kiếm";
+"HIDE_SUGGESTIONS_IN_SEARCH" = "Ẩn các gợi ý trong phần tìm kiếm";
 "SUPPORT_ME" = "Hỗ trợ tôi";
 "AUTHOR_DESCRIPTION" = "Nhà phát triển của tinh chỉnh này";
 "SUPPORTER_DESCRIPTION" = "Người đã giúp đỡ tôi rất nhiều!";

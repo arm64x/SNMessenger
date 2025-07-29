@@ -49,8 +49,7 @@
 "HIDE_META_AI_FLOATING_BUTTON" = "Hide Meta AI floating button";
 "HIDE_NOTES_ROW" = "Hide notes row";
 "HIDE_SEARCH_BAR" = "Hide search bar";
-"HIDE_SUGGESTED_CONTACTS_IN_SEARCH" = "Hide suggested contacts in search";
-"HIDE_SUGGESTED_AI_QUESTIONS_IN_SEARCH" = "Hide AI suggested questions in search";
+"HIDE_SUGGESTIONS_IN_SEARCH" = "Hide suggestions in search";
 "SUPPORT_ME" = "Support me";
 "AUTHOR_DESCRIPTION" = "Developer of this tweak";
 "SUPPORTER_DESCRIPTION" = "Who helped me a lot!";

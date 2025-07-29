@@ -24,8 +24,7 @@ static BOOL hideNotesRow;
 static BOOL hidePeopleTab;
 static BOOL hideStoriesTab;
 static BOOL hideSearchBar;
-static BOOL hideSuggestedAIQuestionsInSearch;
-static BOOL hideSuggestedContactsInSearch;
+static BOOL hideSuggestionsInSearch;
 static NSMutableDictionary *settings;
 
 BOOL isDarkMode = NO;
@@ -72,8 +71,7 @@ static void reloadPrefs() {
     hidePeopleTab                     = [[settings objectForKey:@"hidePeopleTab"] ?: @(NO) boolValue];
     hideStoriesTab                    = [[settings objectForKey:@"hideStoriesTab"] ?: @(NO) boolValue];
     hideSearchBar                     = [[settings objectForKey:@"hideSearchBar"] ?: @(NO) boolValue];
-    hideSuggestedAIQuestionsInSearch  = [[settings objectForKey:@"hideSuggestedAIQuestionsInSearch"] ?: @(NO) boolValue];
-    hideSuggestedContactsInSearch     = [[settings objectForKey:@"hideSuggestedContactsInSearch"] ?: @(NO) boolValue];
+    hideSuggestionsInSearch           = [[settings objectForKey:@"hideSuggestionsInSearch"] ?: @(NO) boolValue];
 }
 
 MDSColorTypeMdsColor *(* _MDSColorTypeMdsColorCreate)(NSUInteger);
@@ -589,22 +587,20 @@ CGFloat MSGCSessionedMobileConfigGetDouble(id context, MSGCSessionedMobileConfig
 
 %end
 
-#pragma mark - Hide suggested AI questions in search
+#pragma mark - Hide suggested suggestions in search
 
 %hook MSGUniversalSearchNullStateViewController
 
 - (void)_updateHeaderList:(id)list {
-    if (!hideSuggestedAIQuestionsInSearch) %orig;
+    if (!hideSuggestionsInSearch) %orig;
 }
 
 %end
 
-#pragma mark - Hide suggested contacts in search
-
 %hook LSContactListViewController
 
 - (void)didLoadContactList:(NSArray *)list contactExtrasById:(NSDictionary *)extras {
-    if (hideSuggestedContactsInSearch) {
+    if (hideSuggestionsInSearch) {
         NSString *featureIdentifier = MSHookIvar<NSString *>(self, "_featureIdentifier");
         if ([featureIdentifier isEqual:@"universal_search_null_state"]) {
             return %orig(nil, nil);
