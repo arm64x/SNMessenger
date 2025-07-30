@@ -125,14 +125,6 @@ static inline void SNHookFunctions(map<const char *, vector<struct rebinding>> m
             }
 
             rebind_symbols(rebindings.data(), rebindings_nel);
-
-            for (uint j = 0; j < rebindings_nel; j++) {
-                if (dlsym(handle, rebindings[j].name) != *(rebindings[j].replaced)) {
-                    //RLog(@"Failed to find symbol '%s' in %s", rebindings[j].name, pair.first);
-                    abort();
-                }
-            }
-
             dlclose(handle);
         #else // Jailbroken devices
             MSImageRef ImageRef = getImageRef([NSString stringWithFormat:@"%s.framework/%s", pair.first, pair.first]);

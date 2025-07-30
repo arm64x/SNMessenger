@@ -13,7 +13,7 @@ NSString *MSGMETAGetAppGroupIdentifier() {
 NSURL *fakeGroupContainerURL;
 
 void createDirectoryIfNotExists(NSURL *URL) {
-    if(![URL checkResourceIsReachableAndReturnError:nil]) {
+    if (![URL checkResourceIsReachableAndReturnError:nil]) {
         [[NSFileManager defaultManager] createDirectoryAtURL:URL withIntermediateDirectories:YES attributes:nil error:nil];
     }
 }
