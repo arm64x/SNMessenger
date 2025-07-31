@@ -1,15 +1,5 @@
 #import "SNMessenger.h"
 
-NSString *(* _MSGMETAGetAppGroupIdentifierWithoutLogging)();
-NSString *MSGMETAGetAppGroupIdentifierWithoutLogging() {
-	return @"group.com.facebook.Messenger";
-}
-
-NSString *(* _MSGMETAGetAppGroupIdentifier)();
-NSString *MSGMETAGetAppGroupIdentifier() {
-	return @"group.com.facebook.Messenger";
-}
-
 NSURL *fakeGroupContainerURL;
 
 void createDirectoryIfNotExists(NSURL *URL) {
@@ -94,13 +84,6 @@ static NSString * accessGroupID() {
 
 %ctor {
 	fakeGroupContainerURL = [NSURL fileURLWithPath:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/FakeGroupContainers"] isDirectory:YES];
-
-	SNHookFunctions({
-        {"LightSpeedEngine", {
-			{"MSGMETAGetAppGroupIdentifier", (void *)MSGMETAGetAppGroupIdentifier, (void **)&_MSGMETAGetAppGroupIdentifier},
-            {"MSGMETAGetAppGroupIdentifierWithoutLogging", (void *)MSGMETAGetAppGroupIdentifierWithoutLogging, (void **)&_MSGMETAGetAppGroupIdentifierWithoutLogging}
-		}},
-    });
 
 	%init;
 }
