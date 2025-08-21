@@ -19,11 +19,12 @@ static BOOL disableStorySeenReceipts;
 static BOOL extendStoryVideoUploadLength;
 static BOOL hideStatusBarWhenViewingStory;
 static BOOL neverReplayStoryAfterReacting;
+static BOOL hideMetaAIFloatingButton;
+static BOOL hideNotesRow;
 static BOOL hidePeopleTab;
 static BOOL hideStoriesTab;
-static BOOL hideNotesRow;
 static BOOL hideSearchBar;
-static BOOL hideSuggestedContactsInSearch;
+static BOOL hideSuggestionsInSearch;
 static NSMutableDictionary *settings;
 
 BOOL isDarkMode = NO;
@@ -46,35 +47,36 @@ static NSBundle *SNMessengerBundle() {
 static void reloadPrefs() {
     settings = getCurrentSettings();
 
-    noAds = [[settings objectForKey:@"noAds"] ?: @(YES) boolValue];
-    showTheEyeButton = [[settings objectForKey:@"showTheEyeButton"] ?: @(YES) boolValue];
+    noAds                             = [[settings objectForKey:@"noAds"] ?: @(YES) boolValue];
+    showTheEyeButton                  = [[settings objectForKey:@"showTheEyeButton"] ?: @(YES) boolValue];
 
-    alwaysSendHdPhotos = [[settings objectForKey:@"alwaysSendHdPhotos"] ?: @(YES) boolValue];
-    callConfirmation = [[settings objectForKey:@"callConfirmation"] ?: @(YES) boolValue];
-    disableReadReceipts = [[settings objectForKey:@"disableReadReceipts"] ?: @(YES) boolValue];
+    alwaysSendHdPhotos                = [[settings objectForKey:@"alwaysSendHdPhotos"] ?: @(YES) boolValue];
+    callConfirmation                  = [[settings objectForKey:@"callConfirmation"] ?: @(YES) boolValue];
+    disableReadReceipts               = [[settings objectForKey:@"disableReadReceipts"] ?: @(YES) boolValue];
     disableLongPressToChangeChatTheme = [[settings objectForKey:@"disableLongPressToChangeTheme"] ?: @(NO) boolValue];
-    disableTypingIndicator = [[settings objectForKey:@"disableTypingIndicator"] ?: @(NO) boolValue];
-    hideTypingIndicator = [settings objectForKey:@"hideTypingIndicator"] ?: @"NOWHERE";
-    hideNotifBadgesInChat = [[settings objectForKey:@"hideNotifBadgesInChat"] ?: @(NO) boolValue];
-    keyboardStateAfterEnterChat = [settings objectForKey:@"keyboardStateAfterEnterChat"] ?: @"ADAPTIVE";
+    disableTypingIndicator            = [[settings objectForKey:@"disableTypingIndicator"] ?: @(NO) boolValue];
+    hideTypingIndicator               = [ settings objectForKey:@"hideTypingIndicator"] ?: @"NOWHERE";
+    hideNotifBadgesInChat             = [[settings objectForKey:@"hideNotifBadgesInChat"] ?: @(NO) boolValue];
+    keyboardStateAfterEnterChat       = [ settings objectForKey:@"keyboardStateAfterEnterChat"] ?: @"ADAPTIVE";
 
-    canSaveFriendsStories = [[settings objectForKey:@"canSaveFriendsStories"] ?: @(YES) boolValue];
-    disableStoriesPreview = [[settings objectForKey:@"disableStoriesPreview"] ?: @(NO) boolValue];
-    disableStorySeenReceipts = [[settings objectForKey:@"disableStorySeenReceipts"] ?: @(YES) boolValue];
-    extendStoryVideoUploadLength = [[settings objectForKey:@"extendStoryVideoUploadLength"] ?: @(YES) boolValue];
-    hideStatusBarWhenViewingStory = [[settings objectForKey:@"hideStatusBarWhenViewingStory"] ?: @(YES) boolValue];
-    neverReplayStoryAfterReacting = [[settings objectForKey:@"neverReplayStoryAfterReacting"] ?: @(NO) boolValue];
+    canSaveFriendsStories             = [[settings objectForKey:@"canSaveFriendsStories"] ?: @(YES) boolValue];
+    disableStoriesPreview             = [[settings objectForKey:@"disableStoriesPreview"] ?: @(NO) boolValue];
+    disableStorySeenReceipts          = [[settings objectForKey:@"disableStorySeenReceipts"] ?: @(YES) boolValue];
+    extendStoryVideoUploadLength      = [[settings objectForKey:@"extendStoryVideoUploadLength"] ?: @(YES) boolValue];
+    hideStatusBarWhenViewingStory     = [[settings objectForKey:@"hideStatusBarWhenViewingStory"] ?: @(YES) boolValue];
+    neverReplayStoryAfterReacting     = [[settings objectForKey:@"neverReplayStoryAfterReacting"] ?: @(NO) boolValue];
 
-    hidePeopleTab = [[settings objectForKey:@"hidePeopleTab"] ?: @(NO) boolValue];
-    hideStoriesTab = [[settings objectForKey:@"hideStoriesTab"] ?: @(NO) boolValue];
-    hideNotesRow = [[settings objectForKey:@"hideNotesRow"] ?: @(NO) boolValue];
-    hideSearchBar = [[settings objectForKey:@"hideSearchBar"] ?: @(NO) boolValue];
-    hideSuggestedContactsInSearch = [[settings objectForKey:@"hideSuggestedContactsInSearch"] ?: @(NO) boolValue];
+    hideMetaAIFloatingButton          = [[settings objectForKey:@"hideMetaAIFloatingButton"] ?: @(NO) boolValue];
+    hideNotesRow                      = [[settings objectForKey:@"hideNotesRow"] ?: @(NO) boolValue];
+    hidePeopleTab                     = [[settings objectForKey:@"hidePeopleTab"] ?: @(NO) boolValue];
+    hideStoriesTab                    = [[settings objectForKey:@"hideStoriesTab"] ?: @(NO) boolValue];
+    hideSearchBar                     = [[settings objectForKey:@"hideSearchBar"] ?: @(NO) boolValue];
+    hideSuggestionsInSearch           = [[settings objectForKey:@"hideSuggestionsInSearch"] ?: @(NO) boolValue];
 }
 
-MDSColorTypeMdsColor *(* MDSColorTypeMdsColorCreate)(NSUInteger);
-MDSGeneratedImageIconStyleNormal *(* MDSGeneratedImageIconStyleNormalCreate)();
-MDSGeneratedImageSpecIcon *(* MDSGeneratedImageSpecIconCreate)(NSUInteger, MDSColorTypeMdsColor *, id);
+MDSColorTypeMdsColor *(* _MDSColorTypeMdsColorCreate)(NSUInteger);
+MDSGeneratedImageIconStyleNormal *(* _MDSGeneratedImageIconStyleNormalCreate)();
+MDSGeneratedImageSpecIcon *(* _MDSGeneratedImageSpecIconCreate)(NSUInteger, MDSColorTypeMdsColor *, id);
 
 MDSGeneratedImageView *MDSGeneratedImageViewCreate(NSString *iconName, NSUInteger colorCode, CGSize size) {
     // Get icon code (Hard-coded in `MDSIconNameString`)
@@ -132,8 +134,8 @@ MDSGeneratedImageView *MDSGeneratedImageViewCreate(NSString *iconName, NSUIntege
         }
     }
 
-    MDSColorTypeMdsColor *color = MDSColorTypeMdsColorCreate(colorCode);
-    MDSGeneratedImageSpecIcon *spec = MDSGeneratedImageSpecIconCreate(iconCode, color, MDSGeneratedImageIconStyleNormalCreate());
+    MDSColorTypeMdsColor *color = _MDSColorTypeMdsColorCreate(colorCode);
+    MDSGeneratedImageSpecIcon *spec = _MDSGeneratedImageSpecIconCreate(iconCode, color, _MDSGeneratedImageIconStyleNormalCreate());
     MDSGeneratedImageView *imageView = [[%c(MDSGeneratedImageView) alloc] initWithFrame:{{0, 0}, size}];
     [imageView setSpec:spec];
     return imageView;
@@ -249,9 +251,9 @@ MSGModelADTInfo actionTypeSaveADTInfo = {
     .subtype = 2
 };
 
-Class (* MSGModelDefineClass)(MSGModelInfo *);
-%hookf(Class, MSGModelDefineClass, MSGModelInfo *info) {
-    Class modelClass = %orig;
+Class (* _MSGModelDefineClass)(MSGModelInfo *);
+Class MSGModelDefineClass(MSGModelInfo *info) {
+    Class modelClass = _MSGModelDefineClass(info);
 
     SwitchCStr (info->name) {
         CaseCEqual ("MSGStoryOverlayProfileViewActionStandard") {
@@ -393,7 +395,7 @@ Class (* MSGModelDefineClass)(MSGModelInfo *);
 - (BOOL)collectionView:(id)arg1 shouldSelectItemAtIndexPath:(id)arg2 {
     UIButton *hdToggleButton = MSHookIvar<UIButton *>(self, "_hdToggleButton");
     if (alwaysSendHdPhotos && [hdToggleButton state] == 0) {
-        [self _stopHDAnimationAndToggleHD];
+        [self _didTapHDToggle:hdToggleButton];
     }
 
     return %orig;
@@ -421,13 +423,15 @@ Class (* MSGModelDefineClass)(MSGModelInfo *);
 
 %end
 
-id (* LSRTCValidateCallIntentForKey)(NSString *, id, LSRTCCallIntentValidatorParams *);
-%hookf(id, LSRTCValidateCallIntentForKey, NSString *key, id context, LSRTCCallIntentValidatorParams *params) {
+id (* _LSRTCValidateCallIntentForKey)(NSString *, id, LSRTCCallIntentValidatorParams *);
+id LSRTCValidateCallIntentForKey(NSString *key, id context, LSRTCCallIntentValidatorParams *params) {
     MSGNavigationCoordinator_LSNavigationCoordinatorProxy *navigationCoordinator = [[params callIntent] navigationCoordinator];
-    if (!callConfirmation || ![key isEqual:@"rtc_integrity_joiner_transparency"]) return %orig;
+    if (!callConfirmation || ![key isEqual:@"rtc_integrity_joiner_transparency"]) {
+        return _LSRTCValidateCallIntentForKey(key, context, params);
+    }
 
     [navigationCoordinator presentAlertWithCompletion:^(BOOL confirmed) {
-        if (confirmed) %orig;
+        if (confirmed) _LSRTCValidateCallIntentForKey(key, context, params);
     }];
 
     return nil;
@@ -435,32 +439,20 @@ id (* LSRTCValidateCallIntentForKey)(NSString *, id, LSRTCCallIntentValidatorPar
 
 #pragma mark - Disable read receipts
 
-%group MCINotificationCenterPostNotification
-
-void *(* MCINotificationCenterPostNotification)(id, NSString *, NSString *, NSMutableDictionary *);
-%hookf(void *, MCINotificationCenterPostNotification, id notifCenter, NSString *event, NSString *taskID, id content) {
-    if (disableReadReceipts && [[content valueForKey:@"MCDNotificationTaskLabelsListKey"] isEqual:@[@"tam_thread_mark_read"]]) {
-        return nil;
-    }
-
-    return %orig;
+void (* _MCQSHIMTransportHybridThreadMarkThreadRead)();
+void MCQSHIMTransportHybridThreadMarkThreadRead() {
+    if (!disableReadReceipts) _MCQSHIMTransportHybridThreadMarkThreadRead();
 }
-
-%end
 
 // v458.0.0
-%group MCINotificationCenterPostStrictNotification
-
-void *(* MCINotificationCenterPostStrictNotification)(NSUInteger, id, NSString *, NSString *, NSMutableDictionary *);
-%hookf(void *, MCINotificationCenterPostStrictNotification, NSUInteger type, id notifCenter, NSString *event, NSString *taskID, NSMutableDictionary *content) {
+void *(* _MCINotificationCenterPostStrictNotification)(NSUInteger, id, NSString *, NSString *, NSMutableDictionary *);
+void *MCINotificationCenterPostStrictNotification(NSUInteger type, id notifCenter, NSString *event, NSString *taskID, NSMutableDictionary *content) {
     if (disableReadReceipts && [[content valueForKey:@"MCDNotificationTaskLabelsListKey"] isEqual:@[@"tam_thread_mark_read"]]) {
         return nil;
     }
 
-    return %orig;
+    return _MCINotificationCenterPostStrictNotification(type, notifCenter, event, taskID, content);
 }
-
-%end
 
 #pragma mark - Disable stories preview
 
@@ -503,46 +495,49 @@ void *(* MCINotificationCenterPostStrictNotification)(NSUInteger, id, NSString *
 
 #pragma mark - Disable typing indicator
 
-%group MCQTamClientTypingIndicatorStart
-
-void (* MCQTamClientTypingIndicatorStart)();
-%hookf(void, MCQTamClientTypingIndicatorStart) {
-    if (!disableTypingIndicator) return %orig;
+void (* _MCQTamClientTypingIndicatorStart)();
+void MCQTamClientTypingIndicatorStart() {
+    if (!disableTypingIndicator) return _MCQTamClientTypingIndicatorStart();
 }
-
-%end
 
 #pragma mark - Extend story video upload duration
 
-%group MSGAVFoundationEstimateMaxVideoDurationInputCreate
-
-id (* MSGAVFoundationEstimateMaxVideoDurationInputCreate)(MSGMediaVideoPhasset *, NSUInteger, NSInteger, id, id);
-%hookf(id, MSGAVFoundationEstimateMaxVideoDurationInputCreate, MSGMediaVideoPhasset *videoAsset, NSUInteger maxVideoResolution, NSInteger maxFileSizeInBytes, id roundingFactorInSeconds, id completion) {
+id (* _MSGAVFoundationEstimateMaxVideoDurationInputCreate)(MSGMediaVideoPhasset *, NSUInteger, NSInteger, id, id);
+id MSGAVFoundationEstimateMaxVideoDurationInputCreate(MSGMediaVideoPhasset *videoAsset, NSUInteger maxVideoResolution, NSInteger maxFileSizeInBytes, id roundingFactorInSeconds, id completion) {
     if (extendStoryVideoUploadLength) MSHookIvar<CGFloat>([videoAsset asset], "_duration") = 1.0f; // max ≈ 13 mins
-    return %orig;
+    return _MSGAVFoundationEstimateMaxVideoDurationInputCreate(videoAsset, maxVideoResolution, maxFileSizeInBytes, roundingFactorInSeconds, completion);
 }
 
-%end
-
 // v458.0.0
-%group MSGCSessionedMobileConfig
-
-BOOL (* MSGCSessionedMobileConfigGetBoolean)(id, MSGCSessionedMobileConfig *, BOOL, BOOL);
-%hookf(BOOL, MSGCSessionedMobileConfigGetBoolean, id context, MSGCSessionedMobileConfig *config, BOOL arg3, BOOL arg4) {
+BOOL (* _MSGCSessionedMobileConfigGetBoolean)(id, MSGCSessionedMobileConfig *, BOOL, BOOL);
+BOOL MSGCSessionedMobileConfigGetBoolean(id context, MSGCSessionedMobileConfig *config, BOOL arg3, BOOL arg4) {
     if (extendStoryVideoUploadLength && strcmp(config->subKey, "replace_system_trimmer") == 0) {
         return YES;
     }
 
-    return %orig;
+    return _MSGCSessionedMobileConfigGetBoolean(context, config, arg3, arg4);
 }
 
-CGFloat (* MSGCSessionedMobileConfigGetDouble)(id, MSGCSessionedMobileConfig *, BOOL, BOOL);
-%hookf(CGFloat, MSGCSessionedMobileConfigGetDouble, id context, MSGCSessionedMobileConfig *config, BOOL arg3, BOOL arg4) {
+CGFloat (* _MSGCSessionedMobileConfigGetDouble)(id, MSGCSessionedMobileConfig *, BOOL, BOOL);
+CGFloat MSGCSessionedMobileConfigGetDouble(id context, MSGCSessionedMobileConfig *config, BOOL arg3, BOOL arg4) {
     if (extendStoryVideoUploadLength && strcmp(config->subKey, "max_story_duration") == 0) {
         return 600.0f; // 10 mins
     }
 
-    return %orig;
+    return _MSGCSessionedMobileConfigGetDouble(context, config, arg3, arg4);
+}
+
+#pragma mark - Hide floating Meta AI button
+
+%hook MSGMetaAIFloatingActionButtonViewController
+
+- (void)viewDidLoad {
+    if (hideMetaAIFloatingButton) {
+        [[self view] setHidden:YES];
+        return;
+    }
+
+    %orig;
 }
 
 %end
@@ -592,12 +587,20 @@ CGFloat (* MSGCSessionedMobileConfigGetDouble)(id, MSGCSessionedMobileConfig *, 
 
 %end
 
-#pragma mark - Hide suggested contacts in search
+#pragma mark - Hide suggested suggestions in search
+
+%hook MSGUniversalSearchNullStateViewController
+
+- (void)_updateHeaderList:(id)list {
+    if (!hideSuggestionsInSearch) %orig;
+}
+
+%end
 
 %hook LSContactListViewController
 
 - (void)didLoadContactList:(NSArray *)list contactExtrasById:(NSDictionary *)extras {
-    if (hideSuggestedContactsInSearch) {
+    if (hideSuggestionsInSearch) {
         NSString *featureIdentifier = MSHookIvar<NSString *>(self, "_featureIdentifier");
         if ([featureIdentifier isEqual:@"universal_search_null_state"]) {
             return %orig(nil, nil);
@@ -666,8 +669,11 @@ static BOOL hideTabBar = NO;
 %hook MSGMessageListViewModelGenerator
 
 - (void)didLoadThreadModel:(id)arg1 threadViewModelMap:(id)arg2 threadSessionIdentifier:(id)arg3 messageModels:(NSMutableArray <MSGTempMessageListItemModel *> *)models threadParticipants:(id)arg6 attributionIDV2:(id)arg7 loadMoreStateOlder:(int)arg8 loadMoreStateNewer:(int)arg9 didLoadNewIsland:(BOOL)arg10 modelFetchedTimeInSeconds:(CGFloat)arg11 completion:(id)arg12 {
-    if ([@[@"IN_CHAT_ONLY", @"BOTH"] containsObject:hideTypingIndicator] && [[[models lastObject] messageId] isEqual:@"typing_indicator"]) {
-        [models removeLastObject];
+    if ([models count] > 0) {
+        MSGTempMessageListItemModel *indicatorModel = [models objectAtIndex:[models count] - 1];
+        if ([@[@"IN_CHAT_ONLY", @"BOTH"] containsObject:hideTypingIndicator] && [[indicatorModel messageId] isEqual:@"typing_indicator"]) {
+            [models removeObject:indicatorModel];
+        }
     }
 
     %orig;
@@ -766,37 +772,36 @@ static BOOL hideTabBar = NO;
     CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)reloadPrefs, CFSTR(PREF_CHANGED_NOTIF), NULL, CFNotificationSuspensionBehaviorDeliverImmediately);
     reloadPrefs();
 
-    // Get Messenger's bundle & image refs of frameworks
     tweakBundle = SNMessengerBundle();
-    MSImageRef LSCoreRef = getImageRef(@"LightSpeedCore.framework/LightSpeedCore");
-    MSImageRef LSEngineRef = getImageRef(@"LightSpeedEngine.framework/LightSpeedEngine");
 
-    LSRTCValidateCallIntentForKey = (id (*)(NSString *, id, LSRTCCallIntentValidatorParams *))MSFindSymbol(LSCoreRef, "_LSRTCValidateCallIntentForKey");
-    MDSColorTypeMdsColorCreate = (MDSColorTypeMdsColor *(*)(NSUInteger))MSFindSymbol(LSCoreRef, "_MDSColorTypeMdsColorCreate");
-    MDSGeneratedImageIconStyleNormalCreate = (MDSGeneratedImageIconStyleNormal *(*)())MSFindSymbol(LSCoreRef, "_MDSGeneratedImageIconStyleNormalCreate");
-    MDSGeneratedImageSpecIconCreate = (MDSGeneratedImageSpecIcon *(*)(NSUInteger, MDSColorTypeMdsColor *, id))MSFindSymbol(LSCoreRef, "_MDSGeneratedImageSpecIconCreate");
+    SNHookFunctions({
+        {"LightSpeedCore", {
+            {"LSRTCValidateCallIntentForKey", (void *)LSRTCValidateCallIntentForKey, (void **)&_LSRTCValidateCallIntentForKey},
+            {"MDSColorTypeMdsColorCreate", NULL, (void **)&_MDSColorTypeMdsColorCreate},
+            {"MDSGeneratedImageIconStyleNormalCreate", NULL, (void **)&_MDSGeneratedImageIconStyleNormalCreate},
+            {"MDSGeneratedImageSpecIconCreate", NULL, (void **)&_MDSGeneratedImageSpecIconCreate}
+        }}
+    });
 
     if (MessengerVersion() > 458.0) {
-        MSGModelDefineClass = (Class (*)(MSGModelInfo *))MSFindSymbol(LSEngineRef, "_MSGModelDefineClass");
-
-        MCINotificationCenterPostNotification = (void *(*)(id, NSString *, NSString *, NSMutableDictionary *))MSFindSymbol(LSEngineRef, "_MCINotificationCenterPostNotification");
-        %init(MCINotificationCenterPostNotification);
-
-        MCQTamClientTypingIndicatorStart = (void (*)())MSFindSymbol(LSEngineRef, "_MCQTamClientTypingIndicatorStart");
-        %init(MCQTamClientTypingIndicatorStart);
-
-        MSGAVFoundationEstimateMaxVideoDurationInputCreate = (id (*)(MSGMediaVideoPhasset *, NSUInteger, NSInteger, id, id))MSFindSymbol(LSEngineRef, "_MSGAVFoundationEstimateMaxVideoDurationInputCreate");
-        %init(MSGAVFoundationEstimateMaxVideoDurationInputCreate);
+        SNHookFunctions({
+            {"LightSpeedEngine", {
+                {"MSGModelDefineClass", (void *)MSGModelDefineClass, (void **)&_MSGModelDefineClass},
+                {"MCQSHIMTransportHybridThreadMarkThreadRead", (void *)MCQSHIMTransportHybridThreadMarkThreadRead, (void **)&_MCQSHIMTransportHybridThreadMarkThreadRead},
+                {"MCQTamClientTypingIndicatorStart", (void *)MCQTamClientTypingIndicatorStart, (void **)&_MCQTamClientTypingIndicatorStart},
+                {"MSGAVFoundationEstimateMaxVideoDurationInputCreate", (void *)MSGAVFoundationEstimateMaxVideoDurationInputCreate, (void **)&_MSGAVFoundationEstimateMaxVideoDurationInputCreate}
+            }}
+        });
     } else {
-        MSGModelDefineClass = (Class (*)(MSGModelInfo *))MSFindSymbol(LSCoreRef, "_MSGModelDefineClass");
-
-        MCINotificationCenterPostStrictNotification = (void *(*)(NSUInteger, id, NSString *, NSString *, NSMutableDictionary *))MSFindSymbol(LSCoreRef, "_MCINotificationCenterPostStrictNotification");
-        %init(MCINotificationCenterPostStrictNotification);
-
-        MSGCSessionedMobileConfigGetBoolean = (BOOL (*)(id, MSGCSessionedMobileConfig *, BOOL, BOOL))MSFindSymbol(LSCoreRef, "_MSGCSessionedMobileConfigGetBoolean");
-        MSGCSessionedMobileConfigGetDouble = (CGFloat (*)(id, MSGCSessionedMobileConfig *, BOOL, BOOL))MSFindSymbol(LSCoreRef, "_MSGCSessionedMobileConfigGetDouble");
-        %init(MSGCSessionedMobileConfig);
+        SNHookFunctions({
+            {"LightSpeedCore", {
+                {"MSGModelDefineClass", (void *)MSGModelDefineClass, (void **)&_MSGModelDefineClass},
+                {"MCINotificationCenterPostStrictNotification", (void *)MCINotificationCenterPostStrictNotification, (void **)&_MCINotificationCenterPostStrictNotification},
+                {"MSGCSessionedMobileConfigGetBoolean", (void *)MSGCSessionedMobileConfigGetBoolean, (void **)&_MSGCSessionedMobileConfigGetBoolean},
+                {"MSGCSessionedMobileConfigGetDouble", (void *)MSGCSessionedMobileConfigGetDouble, (void **)&_MSGCSessionedMobileConfigGetDouble}
+            }}
+        });
     }
 
-    %init;
+    %init(MSGMetaAIFloatingActionButtonViewController = objc_lookUpClass("MSGMetaAIFAB.MSGMetaAIFABViewController"));
 }

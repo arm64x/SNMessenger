@@ -16,6 +16,7 @@
 "CALL_CONFIRMATION_TITLE" = "Call confirmation";
 "CALL_CONFIRMATION_MESSAGE" = "Are you sure you want to call ?";
 "DISABLE_READ_RECEIPTS" = "Disable read receipts";
+"DISABLE_READ_RECEIPTS_DESCRIPTION" = "Will still mark as read but only on your side";
 "DISABLE_LONG_PRESS_TO_CHANGE_THEME" = "Disable long press to change theme";
 "CONFIG_TYPING_INDICATOR" = "Configure typing indicator";
 "CONFIG_TYPING_INDICATOR_TITLE" = "Typing indicator settings";
@@ -45,9 +46,10 @@
 "UI_OPTIONS" = "UI options";
 "HIDE_PEOPLE_TAB" = "Hide people tab";
 "HIDE_STORIES_TAB" = "Hide stories tab";
+"HIDE_META_AI_FLOATING_BUTTON" = "Hide Meta AI floating button";
 "HIDE_NOTES_ROW" = "Hide notes row";
 "HIDE_SEARCH_BAR" = "Hide search bar";
-"HIDE_SUGGESTED_CONTACTS_IN_SEARCH" = "Hide suggested contacts in search";
+"HIDE_SUGGESTIONS_IN_SEARCH" = "Hide suggestions in search";
 "SUPPORT_ME" = "Support me";
 "AUTHOR_DESCRIPTION" = "Developer of this tweak";
 "SUPPORTER_DESCRIPTION" = "Who helped me a lot!";

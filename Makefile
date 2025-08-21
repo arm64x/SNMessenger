@@ -1,6 +1,16 @@
 INSTALL_TARGET_PROCESSES = Messenger
-PACKAGE_VERSION = 1.1.0
-ARCHS = arm64
+PACKAGE_VERSION = 2.0.0
+ARCHS = arm64 arm64e
+
+TWEAK_NAME = SNMessenger
+$(TWEAK_NAME)_FILES = $(wildcard SNMessenger.xm Settings/*.mm)
+$(TWEAK_NAME)_CCFLAGS = -std=c++17
+$(TWEAK_NAME)_CFLAGS = -fobjc-arc
+
+ifeq ($(SIDELOAD), 1)
+    $(TWEAK_NAME)_FILES += fishhook/fishhook.c SideloadedFixes.xm
+    $(TWEAK_NAME)_CFLAGS += -DSIDELOAD=1
+endif
 
 ifeq ($(ROOTLESS), 1)
     THEOS_PACKAGE_SCHEME = rootless
@@ -10,10 +20,4 @@ else
 endif
 
 include $(THEOS)/makefiles/common.mk
-
-TWEAK_NAME = SNMessenger
-$(TWEAK_NAME)_FILES = $(wildcard *.xm Settings/*.mm)
-$(TWEAK_NAME)_CCFLAGS = -std=c++17
-$(TWEAK_NAME)_CFLAGS = -fobjc-arc
-
 include $(THEOS_MAKE_PATH)/tweak.mk

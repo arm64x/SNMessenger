@@ -94,3 +94,10 @@
 
 @interface MDSGeneratedImageSpecIcon : MSGModel
 @end
+
+@interface MDSButtonColorSet : MSGModel
+@end
+
+@interface MDSIconButtonPropsIconOnlyStyled : MSGModel
+- (MDSButtonColorSet *)iconColor;
+@end

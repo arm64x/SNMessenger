@@ -78,6 +78,7 @@
     disableLongPressToChangeThemeCell.prefKey = @"disableLongPressToChangeTheme";
 
     SNCellModel *disableReadReceiptsCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"DISABLE_READ_RECEIPTS"];
+    disableReadReceiptsCell.subtitleKey = @"DISABLE_READ_RECEIPTS_DESCRIPTION";
     disableReadReceiptsCell.prefKey = @"disableReadReceipts";
     disableReadReceiptsCell.defaultValue = @(YES);
 
@@ -113,6 +114,10 @@
 
     //=========================== UI OPTIONS ===========================//
 
+    SNCellModel *hideMetaAIFloatingButtonCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_META_AI_FLOATING_BUTTON"];
+    hideMetaAIFloatingButtonCell.prefKey = @"hideMetaAIFloatingButton";
+    hideMetaAIFloatingButtonCell.isRestartRequired = YES;
+
     SNCellModel *hidePeopleTabCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_PEOPLE_TAB"];
     hidePeopleTabCell.prefKey = @"hidePeopleTab";
     hidePeopleTabCell.isRestartRequired = YES;
@@ -124,14 +129,14 @@
 
     SNCellModel *hideNotesRowCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_NOTES_ROW"];
     hideNotesRowCell.prefKey = @"hideNotesRow";
-    hideStoriesTabCell.isRestartRequired = YES;
+    hideNotesRowCell.isRestartRequired = YES;
 
     SNCellModel *hideSearchBarCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_SEARCH_BAR"];
     hideSearchBarCell.prefKey = @"hideSearchBar";
     hideSearchBarCell.isRestartRequired = YES;
 
-    SNCellModel *hideSuggestedContactsInSearchCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_SUGGESTED_CONTACTS_IN_SEARCH"];
-    hideSuggestedContactsInSearchCell.prefKey = @"hideSuggestedContactsInSearch";
+    SNCellModel *hideSuggestionsInSearchCell = [[SNCellModel alloc] initWithType:Switch labelKey:@"HIDE_SUGGESTIONS_IN_SEARCH"];
+    hideSuggestionsInSearchCell.prefKey = @"hideSuggestionsInSearch";
 
     //=========================== SUPPORT ME ===========================//
 
@@ -181,11 +186,12 @@
             ],
 
         @"3": @[
+                hideMetaAIFloatingButtonCell,
+                hideNotesRowCell,
                 hidePeopleTabCell,
                 hideStoriesTabCell,
-                hideNotesRowCell,
                 hideSearchBarCell,
-                hideSuggestedContactsInSearchCell
+                hideSuggestionsInSearchCell
             ],
 
         @"4": @[
@@ -278,7 +284,7 @@
 - (void)showRequireRestartAlert {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:localizedStringForKey(@"RESTART_MESSAGE") message:localizedStringForKey(@"RESTART_CONFIRM_MESSAGE") preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:localizedStringForKey(@"CONFIRM") style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
-        kill(getpid(), SIGTERM);
+        abort();
     }]];
 
     [alert addAction:[UIAlertAction actionWithTitle:localizedStringForKey(@"CANCEL") style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
